@@ -10,7 +10,13 @@ against several Java containers such as: Tomcat, Jetty, Grizzly or Undertow.
 
 The project implements the same REST API as the
 [java-rest-api-web-container-benchmark](https://github.com/arcadius/java-rest-api-web-container-benchmark)
-which compares the Java web containers.
+which compares several Java web containers.  The REST API is the same for each
+server (Java or Ada) and it returns the following json result:
+
+  {"greeting":"Hello World!"}
+
+Server performances are measured by using the
+[Apache Benchmark](https://httpd.apache.org/docs/2.2/programs/ab.html)
 
 
 
