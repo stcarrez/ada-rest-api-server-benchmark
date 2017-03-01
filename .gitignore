@@ -1,0 +1,9 @@
+*~
+*.log
+config.status
+auto.cgpr
+*.cproject
+*.gb_project
+*.project
+*.gcov
+*.mat
