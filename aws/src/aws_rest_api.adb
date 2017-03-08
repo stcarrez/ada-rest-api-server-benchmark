@@ -41,7 +41,7 @@ begin
 
    AWS.Server.Start (WS, Dispatcher => Dispatcher, Config => Config);
 
-   AWS.Server.Wait (AWS.Server.Q_Key_Pressed);
+   AWS.Server.Wait;
 
    AWS.Server.Shutdown (WS);
 end AWS_Rest_Api;
