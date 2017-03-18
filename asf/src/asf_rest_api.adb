@@ -20,9 +20,9 @@ with ASF.Server.Web;
 with ASF.Servlets.Rest;
 with ASF.Servlets.Files;
 with ASF.Applications;
+with ASF.Rest;
 with Util.Log.Loggers;
 with Rest_Api;
-with EL.Contexts.Default;
 
 procedure ASF_Rest_Api is
    CONFIG_PATH  : constant String := "samples.properties";
@@ -31,7 +31,6 @@ procedure ASF_Rest_Api is
    Files   : aliased ASF.Servlets.Files.File_Servlet;
    App     : aliased ASF.Servlets.Servlet_Registry;
    WS      : ASF.Server.Web.AWS_Container;
-   Ctx     : EL.Contexts.Default.Default_Context;
    Log     : constant Util.Log.Loggers.Logger := Util.Log.Loggers.Create ("Api_Server");
 begin
    Util.Log.Loggers.Initialize (CONFIG_PATH);
@@ -44,7 +43,7 @@ begin
    --  Define servlet mappings
    App.Add_Mapping (Name => "api", Pattern => "/api/*");
 
-   Rest_Api.Benchmark_API.Register (App, "api", Ctx);
+   ASF.Rest.Register (App, Rest_Api.API_Get.Definition);
 
    WS.Register_Application ("/api", App'Unchecked_Access);
 
