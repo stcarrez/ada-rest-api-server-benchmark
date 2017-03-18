@@ -18,10 +18,10 @@
 with ASF.Responses;
 package body Rest_Api is
 
-   procedure Get (D      : in out Mon;
-                  Req    : in out ASF.Rest.Request'Class;
+   procedure Get (Req    : in out ASF.Rest.Request'Class;
                   Reply  : in out ASF.Rest.Response'Class;
                   Stream : in out ASF.Rest.Output_Stream'Class) is
+      pragma Unreferenced (Req);
    begin
       --  Write the JSON/XML document.
       Stream.Start_Document;
