@@ -15,29 +15,17 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 -----------------------------------------------------------------------
-with Ada.Calendar;
-with ASF.Rest.Definition;
+
+with ASF.Rest.Operation;
 package Rest_Api is
 
-   type Mon is new Natural;
-
    --  Get operation
-   procedure Get (D      : in out Mon;
-                  Req    : in out ASF.Rest.Request'Class;
+   procedure Get (Req    : in out ASF.Rest.Request'Class;
                   Reply  : in out ASF.Rest.Response'Class;
                   Stream : in out ASF.Rest.Output_Stream'Class);
 
-   package Benchmark_API is new ASF.Rest.Definition (Object_Type => Mon,
-                                                     URI         => "/api");
-
-private
-
-   --  Declare each REST API with a relative URI from Benchmark_API definition.
-   --  GET /api
-   package Benchmark_Test is
-      new Benchmark_API.Definition (Handler    => Get'Access,
-                                    Method     => ASF.Rest.GET,
-                                    Pattern    => "",
-                                    Permission => 0);
+   package API_Get is
+      new ASF.Rest.Operation (Handler => Get'Access,
+                              URI         => "/api");
 
 end Rest_Api;
