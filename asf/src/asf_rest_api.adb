@@ -21,11 +21,21 @@ with ASF.Servlets.Rest;
 with ASF.Servlets.Files;
 with ASF.Applications;
 with ASF.Rest;
+with AWS.Config.Set;
 with Util.Log.Loggers;
 with Rest_Api;
 
 procedure ASF_Rest_Api is
+   procedure Configure (Config : in out AWS.Config.Object);
+
    CONFIG_PATH  : constant String := "samples.properties";
+
+   procedure Configure (Config : in out AWS.Config.Object) is
+   begin
+      AWS.Config.Set.Server_Port (Config, 8080);
+      AWS.Config.Set.Max_Connection (Config, 8);
+      AWS.Config.Set.Accept_Queue_Size (Config, 512);
+   end Configure;
 
    Api     : aliased ASF.Servlets.Rest.Rest_Servlet;
    Files   : aliased ASF.Servlets.Files.File_Servlet;
@@ -34,7 +44,7 @@ procedure ASF_Rest_Api is
    Log     : constant Util.Log.Loggers.Logger := Util.Log.Loggers.Create ("Api_Server");
 begin
    Util.Log.Loggers.Initialize (CONFIG_PATH);
-   App.Set_Init_Parameter (ASF.Applications.VIEW_DIR, "samples/web/monitor");
+   App.Set_Init_Parameter (ASF.Applications.VIEW_DIR, "web");
 
    --  Register the servlets and filters
    App.Add_Servlet (Name => "api", Server => Api'Unchecked_Access);
@@ -45,6 +55,7 @@ begin
 
    ASF.Rest.Register (App, Rest_Api.API_Get.Definition);
 
+   WS.Configure (Configure'Access);
    WS.Register_Application ("/api", App'Unchecked_Access);
 
    Log.Info ("Connect you browser to: http://localhost:8080/api");
