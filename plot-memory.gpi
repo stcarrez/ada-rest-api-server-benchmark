@@ -1,0 +1,12 @@
+set fit quiet
+reset
+set terminal pngcairo background "#ffffff" enhanced font "arial,16" fontscale 1.0 size 800,500
+set title textcolor rgb "blue" "Memory usage (RSS)"
+set ylabel "Memory in Kb"
+set xlabel "Concurrent requests"
+set key below
+set style fill transparent solid 0.20 noborder
+set boxwidth 0.5
+set style fill solid
+plot "resources.dat" using 1:8:xtic(2) title "" with boxes 
+
