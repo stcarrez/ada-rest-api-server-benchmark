@@ -1,0 +1,14 @@
+set fit quiet
+reset
+set terminal pngcairo background "#ffffff" enhanced font "arial,16" fontscale 1.0 size 800,500
+#set output benchmark.png
+set title textcolor rgb "blue" "REST API requests/seconds by concurrency (higher is better)"
+set ylabel "Requests per second"
+set xlabel "Concurrent requests"
+set key below
+set style fill transparent solid 0.10 noborder
+plot "ada-aws.dat" using 1:2 title "Ada Web Server" with filledcurves x1 fs transparent solid 0.2, \
+     "ada-asf.dat" using 1:2 title "Ada Server Faces" with filledcurves x1 fs transparent solid 0.3, \
+     "java-grizzly.dat" using 1:2 title "Java Grizzly" with filledcurves x1 fs transparent solid 0.4, \
+     "ada-ews.dat" using 1:2 title "Ada Embedded Server" with filledcurves x1 fs solid 0.3
+     
