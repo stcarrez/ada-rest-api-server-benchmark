@@ -36,7 +36,7 @@ begin
    --  Configure AWS.
    Config := AWS.Config.Get_Current;
    AWS.Config.Set.Reuse_Address (Config, True);
-   AWS.Config.Set.Max_Connection (Config, 32);
+   AWS.Config.Set.Max_Connection (Config, 8);
    AWS.Config.Set.Accept_Queue_Size (Config, 512);
 
    AWS.Server.Start (WS, Dispatcher => Dispatcher, Config => Config);
