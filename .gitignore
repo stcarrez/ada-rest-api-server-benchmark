@@ -1,5 +1,8 @@
 *~
 *.log
+*.csv
+*.dat
+*.stat
 config.status
 auto.cgpr
 *.cproject
