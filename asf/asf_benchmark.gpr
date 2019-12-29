@@ -1,5 +1,5 @@
 with "../config";
-with "asf";
+with "servletada";
 with "servletada_aws";
 
 project ASF_Benchmark is
