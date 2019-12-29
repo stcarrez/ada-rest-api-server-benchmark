@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------
---  rest_api - REST API with Ada Server Faces
---  Copyright (C) 2017 Stephane Carrez
+--  rest_api - REST API with Ada Servlet
+--  Copyright (C) 2017, 2019 Stephane Carrez
 --  Written by Stephane Carrez (Stephane.Carrez@gmail.com)
 --
 --  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,16 +16,16 @@
 --  limitations under the License.
 -----------------------------------------------------------------------
 
-with ASF.Rest.Operation;
+with Servlet.Rest.Operation;
 package Rest_Api is
 
    --  Get operation
-   procedure Get (Req    : in out ASF.Rest.Request'Class;
-                  Reply  : in out ASF.Rest.Response'Class;
-                  Stream : in out ASF.Rest.Output_Stream'Class);
+   procedure Get (Req    : in out Servlet.Rest.Request'Class;
+                  Reply  : in out Servlet.Rest.Response'Class;
+                  Stream : in out Servlet.Rest.Output_Stream'Class);
 
    package API_Get is
-      new ASF.Rest.Operation (Handler => Get'Access,
-                              URI         => "/api");
+      new Servlet.Rest.Operation (Handler => Get'Access,
+                                  URI         => "/api");
 
 end Rest_Api;

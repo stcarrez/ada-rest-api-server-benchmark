@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------
---  rest_api - REST API with Ada Server Faces
---  Copyright (C) 2017 Stephane Carrez
+--  rest_api - REST API with Ada Servlet
+--  Copyright (C) 2017, 2019 Stephane Carrez
 --  Written by Stephane Carrez (Stephane.Carrez@gmail.com)
 --
 --  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,22 +15,24 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 -----------------------------------------------------------------------
-with ASF.Responses;
+with Servlet.Responses;
 package body Rest_Api is
 
-   procedure Get (Req    : in out ASF.Rest.Request'Class;
-                  Reply  : in out ASF.Rest.Response'Class;
-                  Stream : in out ASF.Rest.Output_Stream'Class) is
+   procedure Get (Req    : in out Servlet.Rest.Request'Class;
+                  Reply  : in out Servlet.Rest.Response'Class;
+                  Stream : in out Servlet.Rest.Output_Stream'Class) is
       pragma Unreferenced (Req);
    begin
       --  Write the JSON/XML document.
       Stream.Start_Document;
+      Stream.Start_Entity ("");
       Stream.Write_Entity ("greeting", "Hello World!");
+      Stream.End_Entity ("");
       Stream.End_Document;
 
    exception
       when others =>
-         Reply.Set_Status (ASF.Responses.SC_NOT_FOUND);
+         Reply.Set_Status (Servlet.Responses.SC_NOT_FOUND);
    end Get;
 
 end Rest_Api;

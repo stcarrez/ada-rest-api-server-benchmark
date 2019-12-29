@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------
---  asf_rest_api -- Rest API Benchmark for Ada Server Faces with AWS
---  Copyright (C) 2017 Stephane Carrez
+--  asf_rest_api -- Rest API Benchmark for Ada Servlet with AWS
+--  Copyright (C) 2017, 2019 Stephane Carrez
 --  Written by Stephane Carrez (Stephane.Carrez@gmail.com)
 --
 --  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,9 @@
 --  limitations under the License.
 -----------------------------------------------------------------------
 
-with ASF.Server.Web;
-with ASF.Servlets.Rest;
-with ASF.Servlets.Files;
-with ASF.Applications;
-with ASF.Rest;
+with Servlet.Server.Web;
+with Servlet.Rest;
+with Servlet.Core.Rest;
 with AWS.Config.Set;
 with Util.Log.Loggers;
 with Rest_Api;
@@ -37,28 +35,25 @@ procedure ASF_Rest_Api is
       AWS.Config.Set.Accept_Queue_Size (Config, 512);
    end Configure;
 
-   Api     : aliased ASF.Servlets.Rest.Rest_Servlet;
-   Files   : aliased ASF.Servlets.Files.File_Servlet;
-   App     : aliased ASF.Servlets.Servlet_Registry;
-   WS      : ASF.Server.Web.AWS_Container;
+   Api     : aliased Servlet.Core.Rest.Rest_Servlet;
+   App     : aliased Servlet.Core.Servlet_Registry;
+   WS      : Servlet.Server.Web.AWS_Container;
    Log     : constant Util.Log.Loggers.Logger := Util.Log.Loggers.Create ("Api_Server");
 begin
    Util.Log.Loggers.Initialize (CONFIG_PATH);
-   App.Set_Init_Parameter (ASF.Applications.VIEW_DIR, "web");
 
    --  Register the servlets and filters
    App.Add_Servlet (Name => "api", Server => Api'Unchecked_Access);
-   App.Add_Servlet (Name => "files", Server => Files'Unchecked_Access);
 
    --  Define servlet mappings
-   App.Add_Mapping (Name => "api", Pattern => "/api/*");
+   App.Add_Mapping (Name => "api", Pattern => "/*");
 
-   ASF.Rest.Register (App, Rest_Api.API_Get.Definition);
+   Servlet.Rest.Register (App, Rest_Api.API_Get.Definition);
 
    WS.Configure (Configure'Access);
    WS.Register_Application ("/api", App'Unchecked_Access);
 
-   Log.Info ("Connect you browser to: http://localhost:8080/api");
+   Log.Info ("Connect you browser to: http://localhost:8080/api/api");
 
    WS.Start;
 
